@@ -339,8 +339,6 @@ class HistoStruct:
 
                 self.resX_qall_inVBinTH1[index-1].Fill((pixel_recHit.hx-pixel_recHit.x)*CmToUm)
                 self.resY_qall_inVBinTH1[index-1].Fill((pixel_recHit.hy-pixel_recHit.y)*CmToUm)
-                if (pixel_recHit.hy-pixel_recHit.y)*CmToUm > 40:
-                    print "****** pixel phi position ", pixel_recHit.phi
                 self.resYvsresX_qlow_inVBinTH2[index-1].Fill(resX, resY)
                 
                 self.spreadX_qall_inVBinTH1[index-1].Fill(min(pixel_recHit.spreadx, 15))
@@ -901,7 +899,7 @@ class HistoStruct:
         c1_rPhiVsNx_qhigh.SaveAs(plotDir+"/c1_rPhiVsNx_qhigh_in%sBin.pdf" % self.the_name)
                 
         #c1_z_qall.SaveAs(plotDir+"/c1_z_qall_in%sBin.pdf" % self.the_name)
-        c1_z_qlow.SaveAs(plotDir+"/c1_z_qlow_in%sBin.pdf" % self.the_name)
+        c1_z_qlow.SaveAs(plotDir+"/c1_z_qlow_in%sBin.pdf" % self.the_name)        
         c1_z_qhigh.SaveAs(plotDir+"/c1_z_qhigh_in%sBin.pdf" % self.the_name)
         c1_zVsNy_qlow.SaveAs(plotDir+"/c1_zVsNy_qlow_in%sBin.pdf" % self.the_name)
         c1_zVsNy_qhigh.SaveAs(plotDir+"/c1_zVsNy_qhigh_in%sBin.pdf" % self.the_name)

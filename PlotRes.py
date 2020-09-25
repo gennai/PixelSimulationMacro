@@ -122,6 +122,8 @@ def main():
     if options.ontrack:
         plotDir += "_onTrack"
     plotDir += "_L"+str(options.layer)
+    if options.entries > -1:
+        plotDir += "_nEv_"+str(options.entries)
     if not os.path.exists(plotDir):
         try:
             os.mkdir(plotDir)
@@ -218,7 +220,7 @@ def main():
     if options.subid == 1: 
         hsEta = HistoStruct("Eta" ,26, 0.0, 2.6, "|#eta|", output_root_file, options.gaussfit)
         hsPhi = HistoStruct("Phi" , 12, 0., 6.4, "|#phi|", output_root_file, options.gaussfit)
-        hsCotgAlpha = HistoStruct("CotgAlpha" ,15,-0.45, 0.30,  "cotg(#alpha)",  output_root_file, options.gaussfit) # BPIX
+        hsCotgAlpha = HistoStruct("CotgAlpha" ,10,-0.50, 0.50,  "cotg(#alpha)",  output_root_file, options.gaussfit) # BPIX
         hsCotgBeta  = HistoStruct("CotgBeta"  ,10, 0.25, 0.50, "|cotg(#beta)|",  output_root_file, options.gaussfit)
     else:
         hsEta = HistoStruct("Eta" ,5, 1.4, 3.9, "|#eta|", output_root_file, options.gaussfit)  
@@ -356,7 +358,7 @@ def main():
 
             hsEta.FillFirstLoop(math.fabs(tv3.Eta()), pixel_recHit)
             hsPhi.FillFirstLoop(math.fabs(tv3.Phi()), pixel_recHit)
-            hsCotgAlpha.FillFirstLoop(           pixel_recHit.tx/pixel_recHit.tz,  pixel_recHit)
+            hsCotgAlpha.FillFirstLoop( pixel_recHit.tx/pixel_recHit.tz,  pixel_recHit)
             hsCotgBeta.FillFirstLoop(  math.fabs(pixel_recHit.ty/pixel_recHit.tz), pixel_recHit)
             hsNRow.FillFirstLoop(min(pixel_recHit.spreadx,NROWS_MAX), pixel_recHit)
             hsNCol.FillFirstLoop(min(pixel_recHit.spready,NCOLS_MAX), pixel_recHit)
@@ -454,7 +456,7 @@ def main():
             if pixel_recHit.process > -1 and NotModuleEdgePhase2(pixel_recHit.x*CmToUm, pixel_recHit.y*CmToUm):
                hsEta.FillSecondLoop(math.fabs(tv3.Eta()), pixel_recHit)
                hsPhi.FillSecondLoop(math.fabs(tv3.Phi()), pixel_recHit)
-               hsCotgAlpha.FillSecondLoop(           pixel_recHit.tx/pixel_recHit.tz,  pixel_recHit)
+               hsCotgAlpha.FillSecondLoop(pixel_recHit.tx/pixel_recHit.tz,  pixel_recHit)
                hsCotgBeta.FillSecondLoop(  math.fabs(pixel_recHit.ty/pixel_recHit.tz), pixel_recHit)
                hsNRow.FillSecondLoop(min(pixel_recHit.spreadx,NROWS_MAX), pixel_recHit)
                hsNCol.FillSecondLoop(min(pixel_recHit.spready,NCOLS_MAX), pixel_recHit)
