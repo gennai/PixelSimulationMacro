@@ -100,6 +100,9 @@ def main():
     parser.add_option("-S", "--subid",
                       action="store", type="int", dest="subid", default=1,
                       help="phase1: BPIX (subid=1) or FPIX (subid=2)")
+    parser.add_option("-s", "--sample",
+                      action="store", type="string", dest="sample", default="muon",
+                      help="sample generated")
     
     (options, args) = parser.parse_args()
 
@@ -112,11 +115,13 @@ def main():
     except:
         print "No input file specified"
         sys.exit()
-    plotDir = "plots_"
+    plotDir = "plots_"+options.sample+"_"
     if "T23" in  options.input_root_filename:
         plotDir += "T23"
     if "T21" in  options.input_root_filename:
         plotDir += "T21"
+    if "T22" in  options.input_root_filename:
+        plotDir += "T22"
     if options.gaussfit:
         plotDir += "_gaussfit"
     if options.ontrack:
@@ -220,7 +225,7 @@ def main():
     if options.subid == 1: 
         hsEta = HistoStruct("Eta" ,26, 0.0, 2.6, "|#eta|", output_root_file, options.gaussfit)
         hsPhi = HistoStruct("Phi" , 12, 0., 6.4, "|#phi|", output_root_file, options.gaussfit)
-        hsCotgAlpha = HistoStruct("CotgAlpha" ,10,-0.50, 0.50,  "cotg(#alpha)",  output_root_file, options.gaussfit) # BPIX
+        hsCotgAlpha = HistoStruct("CotgAlpha" ,20,-0.6, 0.6,  "cotg(#alpha)",  output_root_file, options.gaussfit) # BPIX
         hsCotgBeta  = HistoStruct("CotgBeta"  ,10, 0.25, 0.50, "|cotg(#beta)|",  output_root_file, options.gaussfit)
     else:
         hsEta = HistoStruct("Eta" ,5, 1.4, 3.9, "|#eta|", output_root_file, options.gaussfit)  
