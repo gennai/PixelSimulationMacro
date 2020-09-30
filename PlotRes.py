@@ -127,6 +127,7 @@ def main():
     if options.ontrack:
         plotDir += "_onTrack"
     plotDir += "_L"+str(options.layer)
+    plotDir += "_S"+str(options.subid)
     if options.entries > -1:
         plotDir += "_nEv_"+str(options.entries)
     if not os.path.exists(plotDir):
@@ -225,13 +226,13 @@ def main():
     if options.subid == 1: 
         hsEta = HistoStruct("Eta" ,26, 0.0, 2.6, "|#eta|", output_root_file, options.gaussfit)
         hsPhi = HistoStruct("Phi" , 12, 0., 6.4, "|#phi|", output_root_file, options.gaussfit)
-        hsCotgAlpha = HistoStruct("CotgAlpha" ,20,-0.6, 0.6,  "cotg(#alpha)",  output_root_file, options.gaussfit) # BPIX
+        hsCotgAlpha = HistoStruct("CotgAlpha" ,100,-1., 1.,  "cotg(#alpha)",  output_root_file, options.gaussfit) # BPIX
         hsCotgBeta  = HistoStruct("CotgBeta"  ,10, 0.25, 0.50, "|cotg(#beta)|",  output_root_file, options.gaussfit)
     else:
         hsEta = HistoStruct("Eta" ,5, 1.4, 3.9, "|#eta|", output_root_file, options.gaussfit)  
         hsPhi = HistoStruct("Phi" , 16, -3.2, 3.2, "|#phi|", output_root_file, options.gaussfit)      
         hsCotgAlpha = HistoStruct("CotgAlpha" , 4,-0.45,-0.25,  "cotg(#alpha)",  output_root_file, options.gaussfit) # FPIX
-        hsCotgBeta  = HistoStruct("CotgBeta"  ,20, 0.25, 0.75, "|cotg(#beta)|",  output_root_file, options.gausfit)
+        hsCotgBeta  = HistoStruct("CotgBeta"  ,20, 0.25, 0.75, "|cotg(#beta)|",  output_root_file, options.gaussfit)
 
     all_entries = input_tree.GetEntries()
     if options.entries != -1:
@@ -328,8 +329,8 @@ def main():
             h2_rzhitmapSubId2.Fill(tv3.z(),tv3.Perp())
 
         # Select one BPIX layer or FPIX disk
-        # example: if pixel_recHit.subid==options.subid and (pixel_recHit.layer==options.layer or pixel_recHit.disk==options.layer) :
-        if pixel_recHit.subid==options.subid and pixel_recHit.layer==options.layer:
+        if pixel_recHit.subid==options.subid and (pixel_recHit.layer==options.layer or pixel_recHit.disk==options.layer) :
+        #if pixel_recHit.subid==options.subid and pixel_recHit.layer==options.layer:
             h2_rzhitmapSelected.Fill(tv3.z(),tv3.Perp())
 
             # map of local positions 
@@ -446,8 +447,8 @@ def main():
 
 
         # Select one BPIX layer or FPIX disk
-        # example:if pixel_recHit.subid==options.subid and (pixel_recHit.layer==options.layer or pixel_recHit.disk==options.layer) :
-        if pixel_recHit.subid==options.subid and pixel_recHit.layer==options.layer:
+        if pixel_recHit.subid==options.subid and (pixel_recHit.layer==options.layer or pixel_recHit.disk==options.layer) :
+        #if pixel_recHit.subid==options.subid and pixel_recHit.layer==options.layer:
             # global position of the rechit
             # NB sin(theta) = tv3.Perp()/tv3.Mag()
             tv3 = ROOT.TVector3(pixel_recHit.gx, pixel_recHit.gy, pixel_recHit.gz)

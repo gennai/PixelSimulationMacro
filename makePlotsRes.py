@@ -1,5 +1,5 @@
 import ROOT
-def createPDF(file_list, rphi=True):
+def createPDF(file_list,outputfilename, rphi=True):
     leg = ROOT.TLegend(0.35,0.75,0.75,0.88,"","brNDC")
     leg.SetBorderSize(1)
     leg.SetTextSize(0.05)
@@ -41,16 +41,7 @@ def createPDF(file_list, rphi=True):
         leg.Draw()
  
 
-    fileout = "ResVsEta_T23_rphi.pdf"
-    if not rphi:
-        fileout = "ResVsEta_T23_rz.pdf"
-    if ("T21" in file_list[0]):
-        fileout = "ResVsEta_T21_rphi.pdf"
-        if not rphi:
-            fileout = "ResVsEta_T21_rz.pdf"
-    if "Layer2" in file_list[0]:
-        fileout = "Layer2_"+fileout
-    c1.SaveAs(fileout)
+    c1.SaveAs(outputfilename)
 
 ROOT.gROOT.SetBatch()
 cases = ["T23","T23_ALL","T23_RMS","T23_ALL_RMS"]
@@ -60,9 +51,9 @@ for icase in cases:
     dir = "plots_"+icase
     files_rphi.append(dir+"/rmsVsEta_rphi.root")
     files_rz.append(dir+"/rmsVsEta_rz.root")
-
-createPDF(files_rphi)
-createPDF(files_rz,False)
+outputfilename = "plots_muons_T23"
+createPDF(files_rphi,outputfilename+"_rphi.pdf")
+createPDF(files_rz,outputfilename+"_rz.pdf",False)
 
 cases = ["T23_Layer2","T23_Layer2_ALL","T23_Layer2_RMS","T23_Layer2_ALL_RMS"]
 files_rphi = []
@@ -71,18 +62,19 @@ for icase in cases:
     dir = "plots_"+icase
     files_rphi.append(dir+"/rmsVsEta_rphi.root")
     files_rz.append(dir+"/rmsVsEta_rz.root")
-createPDF(files_rphi)
-createPDF(files_rz,False)
+outputfilename = "plots_muons_T23_Layer2"    
+createPDF(files_rphi,outputfilename+"_rphi.pdf")
+createPDF(files_rz,outputfilename+"_rz.pdf",False)
 
-cases = ["T21","T21_ALL","T21_RMS","T21_ALL_RMS"]
+cases = ["plots_muon_T22_gaussfit_L1_S2_nEv_2000000","plots_muon_T21_gaussfit_L1_S2_nEv_2000000","plots_muon_T23_gaussfit_L1_S2_nEv_2000000"]
 files_rphi = []
 files_rz = []
 for icase in cases:
-    dir = "plots_"+icase
+    dir = icase
     files_rphi.append(dir+"/rmsVsEta_rphi.root")
     files_rz.append(dir+"/rmsVsEta_rz.root")
-
-createPDF(files_rphi)
-createPDF(files_rz,False)
+outputfilename = "plots_muons_allGeometries_endcap"
+createPDF(files_rphi,outputfilename+"_rphi.pdf")
+createPDF(files_rz,outputfilename+"_rz.pdf",False)
 
 
