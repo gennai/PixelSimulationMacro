@@ -118,10 +118,7 @@ process.ReadLocalMeasurement = cms.EDAnalyzer("Phase2PixelNtuple",
    ROUList = cms.vstring('TrackerHitsPixelBarrelLowTof',                                                                                                  
                          'TrackerHitsPixelBarrelHighTof',                                                                                                 
                          'TrackerHitsPixelEndcapLowTof',                                                                                                  
-                         'TrackerHitsPixelEndcapHighTof'),                                                                                                   usePhase2Tracker = cms.bool(True),                                                                                                                       pixelSimLinkSrc = cms.InputTag("simSiPixelDigis", "Pixel"),                                                                                          
-ttrhBuilder = cms.string("WithTrackAngle"), 
-   phase2TrackerSimLinkSrc = cms.InputTag("simSiPixelDigis", "Tracker")                                                                            
-
+                         'TrackerHitsPixelEndcapHighTof'),                                                                                                   usePhase2Tracker = cms.bool(True),                                                                                                                       pixelSimLinkSrc = cms.InputTag("simSiPixelDigis", "Pixel"),                                                                                             phase2TrackerSimLinkSrc = cms.InputTag("simSiPixelDigis", "Tracker")                                                                            
 )                
 # Other statements
 process.mix.digitizers = cms.PSet(process.theDigitizersValid)

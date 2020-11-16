@@ -1,4 +1,4 @@
-inputFileNames=[
+inputFileNames=
 "file:/eos/home-g/gennai/Phase2/PixelSimulation/11_2_0_pre6/BBbar/T23/step1_0.root",
 "file:/eos/home-g/gennai/Phase2/PixelSimulation/11_2_0_pre6/BBbar/T23/step1_1.root",
 "file:/eos/home-g/gennai/Phase2/PixelSimulation/11_2_0_pre6/BBbar/T23/step1_10.root",

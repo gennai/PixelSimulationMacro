@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: DoubleMuPt10Extended_pythia8_cfi -n 10 --conditions auto:phase2_realistic_T23 --era Phase2C11 --eventcontent FEVTDEBUG --relval 25000,100 -s GEN,SIM --datatier GEN-SIM --beamspot HLLHC --geometry Extended2026D63 -n 10000 --beamspot NoSmear --fileout file:step1_T23_20k.root --no_exec
+# with command line options: DoubleMuPt10Extended_pythia8_cfi -n 10 --conditions auto:phase2_realistic_T21 --era Phase2C11 --eventcontent FEVTDEBUG --relval 25000,100 -s GEN,SIM --datatier GEN-SIM --beamspot HLLHC --geometry Extended2026D63 -n 10000 --beamspot NoSmear --fileout file:step1_T21.root --no_exec
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Eras.Era_Phase2C11_cff import Phase2C11
@@ -15,8 +15,8 @@ process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
 process.load('FWCore.MessageService.MessageLogger_cfi')
 process.load('Configuration.EventContent.EventContent_cff')
 process.load('SimGeneral.MixingModule.mixNoPU_cfi')
-process.load('Configuration.Geometry.GeometryExtended2026D65Reco_cff')
-process.load('Configuration.Geometry.GeometryExtended2026D65_cff')
+#process.load('Configuration.Geometry.GeometryExtended2026D63Reco_cff')
+#process.load('Configuration.Geometry.GeometryExtended2026D63_cff')
 process.load('Configuration.StandardSequences.MagneticField_cff')
 process.load('Configuration.StandardSequences.Generator_cff')
 process.load('Configuration.StandardSequences.VtxSmearedNoSmear_cff')
@@ -26,7 +26,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(5000),
+    input = cms.untracked.int32(10000),
     output = cms.optional.untracked.allowed(cms.int32,cms.PSet)
 )
 
@@ -86,8 +86,8 @@ process.FEVTDEBUGoutput = cms.OutputModule("PoolOutputModule",
 
 # Other statements
 process.genstepfilter.triggerConditions=cms.vstring("generation_step")
-from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase2_realistic_T23', '')
+from Configuration.AlCa.GlobalTag import GlobalTag as GT
+#process.GlobalTag = GT(process.GlobalTag, 'auto:phase2_realistic_T21', '')
 
 process.generator = cms.EDFilter("Pythia8PtGun",
     PGunParameters = cms.PSet(
@@ -108,7 +108,7 @@ process.generator = cms.EDFilter("Pythia8PtGun",
     psethack = cms.string('single mu pt 10')
 )
 
-process.RandomNumberGeneratorService.generator.initialSeed = cms.untracked.uint32(1) 
+
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
 process.simulation_step = cms.Path(process.psim)

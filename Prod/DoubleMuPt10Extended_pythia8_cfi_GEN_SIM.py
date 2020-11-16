@@ -15,8 +15,8 @@ process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
 process.load('FWCore.MessageService.MessageLogger_cfi')
 process.load('Configuration.EventContent.EventContent_cff')
 process.load('SimGeneral.MixingModule.mixNoPU_cfi')
-process.load('Configuration.Geometry.GeometryExtended2026D64Reco_cff')
-process.load('Configuration.Geometry.GeometryExtended2026D64_cff')
+#process.load('Configuration.Geometry.GeometryExtended2026D63Reco_cff')
+#process.load('Configuration.Geometry.GeometryExtended2026D63_cff')
 process.load('Configuration.StandardSequences.MagneticField_cff')
 process.load('Configuration.StandardSequences.Generator_cff')
 process.load('Configuration.StandardSequences.VtxSmearedNoSmear_cff')
@@ -53,7 +53,7 @@ process.options = cms.untracked.PSet(
     numberOfConcurrentLuminosityBlocks = cms.untracked.uint32(1),
     numberOfConcurrentRuns = cms.untracked.uint32(1),
     numberOfStreams = cms.untracked.uint32(0),
-        numberOfThreads = cms.untracked.uint32(1),
+        numberOfThreads = cms.untracked.uint32(4),
     printDependencies = cms.untracked.bool(False),
     sizeOfStackForThreadsInKB = cms.optional.untracked.uint32,
     throwIfIllegalParameter = cms.untracked.bool(True),
@@ -86,8 +86,8 @@ process.FEVTDEBUGoutput = cms.OutputModule("PoolOutputModule",
 
 # Other statements
 process.genstepfilter.triggerConditions=cms.vstring("generation_step")
-from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase2_realistic_T22', '')
+from Configuration.AlCa.GlobalTag import GlobalTag as GT
+#process.GlobalTag = GT(process.GlobalTag, 'auto:phase2_realistic_T21', '')
 
 process.generator = cms.EDFilter("Pythia8PtGun",
     PGunParameters = cms.PSet(

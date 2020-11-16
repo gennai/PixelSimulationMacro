@@ -16,7 +16,7 @@ process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
 process.load('FWCore.MessageService.MessageLogger_cfi')
 process.load('Configuration.EventContent.EventContent_cff')
 process.load('SimGeneral.MixingModule.mixNoPU_cfi')
-process.load('Configuration.Geometry.GeometryExtended2026D63Reco_cff')
+process.load('Configuration.Geometry.GeometryExtended2026D66Reco_cff')
 process.load('Configuration.StandardSequences.MagneticField_cff')
 process.load('Configuration.StandardSequences.Digi_cff')
 process.load('Configuration.StandardSequences.L1TrackTrigger_cff')
@@ -105,21 +105,26 @@ process.FEVTDEBUGHLToutput = cms.OutputModule("PoolOutputModule",
     outputCommands = process.FEVTDEBUGHLTEventContent.outputCommands,
     splitLevel = cms.untracked.int32(0)
 )
-
-# Additional output definition
 process.ReadLocalMeasurement = cms.EDAnalyzer("Phase2PixelNtuple",                                                                                        
-   trackProducer = cms.InputTag("generalTracks"),                                                                                                         
-   #verbose = cms.untracked.bool(True),                                                                                                                   
-   #picky = cms.untracked.bool(False),                                                                                                                    
-   ### for using track hit association                                                                                                                    
-   associatePixel = cms.bool(True),                                                                                                                       
-   associateStrip = cms.bool(False),                                                                                                                      
-   associateRecoTracks = cms.bool(False),                                                                                                                 
-   ROUList = cms.vstring('TrackerHitsPixelBarrelLowTof',                                                                                                  
-                         'TrackerHitsPixelBarrelHighTof',                                                                                                 
-                         'TrackerHitsPixelEndcapLowTof',                                                                                                  
-                         'TrackerHitsPixelEndcapHighTof'),                                                                                                   usePhase2Tracker = cms.bool(True),                                                                                                                       pixelSimLinkSrc = cms.InputTag("simSiPixelDigis", "Pixel"),                                                                                             phase2TrackerSimLinkSrc = cms.InputTag("simSiPixelDigis", "Tracker")                                                                            
-)                
+                                              trackProducer = cms.InputTag("generalTracks"),                                                              
+                                              trajectoryInput = cms.InputTag('TrackRefitter::USER'),                                                      
+                                              #verbose = cms.untracked.bool(True),                                                                        
+                                              #picky = cms.untracked.bool(False),                                                                         
+                                              ### for using track hit association                                                                         
+                                              associatePixel = cms.bool(True),                                                                            
+                                              associateStrip = cms.bool(False),                                                                           
+                                              associateRecoTracks = cms.bool(False),                                                                      
+                                              ROUList = cms.vstring('TrackerHitsPixelBarrelLowTof',                                                       
+                                                                    'TrackerHitsPixelBarrelHighTof',                                                      
+                                                                    'TrackerHitsPixelEndcapLowTof',                                                       
+                                                                    'TrackerHitsPixelEndcapHighTof'),                                                     
+                                              ttrhBuilder = cms.string("WithTrackAngle"),                                                                 
+                                              usePhase2Tracker = cms.bool(True),                                                                          
+                                              pixelSimLinkSrc = cms.InputTag("simSiPixelDigis", "Pixel"),                                                 
+                                              phase2TrackerSimLinkSrc = cms.InputTag("simSiPixelDigis", "Tracker")                                        
+                                          )                                                                                                               
+                                                                                                                                                          
+
 # Other statements
 process.mix.digitizers = cms.PSet(process.theDigitizersValid)
 from Configuration.AlCa.GlobalTag import GlobalTag

@@ -132,8 +132,8 @@ while (keepGoing):
     tmp_cfgFile = open(jobDir+'/run_cfg.py','w')
     process.RandomNumberGeneratorService.generator.initialSeed = cms.untracked.uint32(jobCount*100)
     if geometry == "T21":
-        process.load('Configuration.Geometry.GeometryExtended2026D66Reco_cff')
-        process.load('Configuration.Geometry.GeometryExtended2026D66_cff')
+        process.load('Configuration.Geometry.GeometryExtended2026D63Reco_cff')
+        process.load('Configuration.Geometry.GeometryExtended2026D63_cff')
         from Configuration.AlCa.GlobalTag import GlobalTag as GlobalTag
         process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase2_realistic_T21', '')
     if geometry == "T22":

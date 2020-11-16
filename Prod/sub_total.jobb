@@ -1,1 +1,1 @@
-condor_submit /afs/cern.ch/work/g/gennai/Phase2/PixelSimulation/CMSSW_11_2_0_pre6/src/SLHCUpgradeSimulations/Geometry/test/Prod/condor_cluster.sub
+condor_submit /afs/cern.ch/work/g/gennai/Phase2/PixelSimulation/CMSSW_11_2_X_2020-11-15-0000/src/SLHCUpgradeSimulations/Geometry/test/Prod/condor_cluster.sub

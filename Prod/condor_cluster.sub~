@@ -5,4 +5,4 @@ error = $Fp(filename)hlt.stderr
 log = $Fp(filename)hlt.log
 +JobFlavour = "workday"
 +AccountingGroup = "group_u_CMS.CAF.PHYS"
-queue filename matching (/afs/cern.ch/work/g/gennai/Phase2/PixelSimulation/CMSSW_11_2_X_2020-11-15-0000/src/SLHCUpgradeSimulations/Geometry/test/Prod/Jobs/T21/Job_*/*.sh)
+queue filename matching (/afs/cern.ch/work/g/gennai/Phase2/PixelSimulation/CMSSW_11_2_0_pre6/src/SLHCUpgradeSimulations/Geometry/test/Prod/Jobs/T22/Job_*/*.sh)
