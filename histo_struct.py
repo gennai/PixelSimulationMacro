@@ -100,7 +100,7 @@ class HistoStruct:
 
             # Q cluster corrected for effective depth crossed by particles (only primaries)
             hname = "h1_q_primaries_corr_%sBin%d" % (V_name ,i)
-            htitle = "h1_q_primaries_corr_%s bin %d (%.2f < %s < %.2f);Q_{corr} [ke];recHits" % (V_name, i, V_low, V_label, V_high)
+            htitle = "h1_q_all_corr_%s bin %d (%.2f < %s < %.2f);Q_{corr} [ke];recHits" % (V_name, i, V_low, V_label, V_high)
             self.q_primaries_corr_inVBinTH1.append( ROOT.TH1F(hname,htitle,100,0.,100.))
 
             # Q cluster (only secondaries)
@@ -141,7 +141,7 @@ class HistoStruct:
             #------------
 
             hname = "h1_spreadX_primaries_%sBin%d" % (V_name ,i)
-            htitle = "h1_spreadX_primaries_%s bin %d (%.2f < %s < %.2f); spread;recHits" % (V_name, i, V_low, V_label, V_high)
+            htitle = "h1_spreadX_all_%s bin %d (%.2f < %s < %.2f); spread;recHits" % (V_name, i, V_low, V_label, V_high)
             self.spreadX_primaries_inVBinTH1.append( ROOT.TH1F(hname,htitle,15,0.5,15.5))
 
             hname = "h1_spreadY_%sBin%d" % (V_name ,i)
@@ -149,7 +149,7 @@ class HistoStruct:
             self.spreadY_inVBinTH1.append( ROOT.TH1F(hname,htitle,15,0.5,15.5))
 
             hname = "h1_spreadY_primaries_%sBin%d" % (V_name ,i)
-            htitle = "h1_spreadY_primaries_%s bin %d (%.2f < %s < %.2f); spread;recHits" % (V_name, i, V_low, V_label, V_high)
+            htitle = "h1_spreadY_all_%s bin %d (%.2f < %s < %.2f); spread;recHits" % (V_name, i, V_low, V_label, V_high)
             self.spreadY_primaries_inVBinTH1.append( ROOT.TH1F(hname,htitle,15,0.5,15.5))
 
             hname = "h1_alpha_%sBin%d" % (V_name ,i)
@@ -296,7 +296,8 @@ class HistoStruct:
             
             # only primaries not at the edges of the module (to minimize the lost charge)
             # if pixel_recHit.process == 2 and NotModuleEdge(pixel_recHit.x*CmToUm, pixel_recHit.y*CmToUm):
-            if pixel_recHit.process > -1 and NotModuleEdgePhase2(pixel_recHit.x*CmToUm, pixel_recHit.y*CmToUm):
+            #if pixel_recHit.process > -1 and NotModuleEdgePhase2(pixel_recHit.x*CmToUm, pixel_recHit.y*CmToUm):
+            if pixel_recHit.process > -1 and NotModuleEdgePhase2(pixel_recHit.layer, pixel_recHit.hrow, pixel_recHit.hcol,pixel_recHit.spreadx,pixel_recHit.spready):   
                 self.q_primaries_corr_inVBinTH1[index-1].Fill(pixel_recHit.q*math.fabs(pixel_recHit.tz)*ToKe)
                     
                 self.spreadX_primaries_inVBinTH1[index-1].Fill(min(pixel_recHit.spreadx, 15))
@@ -310,7 +311,7 @@ class HistoStruct:
     ####################################################
         # monitor input variable
         self.h_V.Fill(the_V)
-
+        
         #
         if self.the_min<=the_V and the_V<=self.the_max:
             index = self.the_xAxis.FindBin(the_V)            
@@ -328,7 +329,7 @@ class HistoStruct:
                 resY = -999.9
             if (pixel_recHit.hy-pixel_recHit.y)*CmToUm >  1000.:
                 resY = +999.9                
-
+                        
             #######################################################################################    
 
             if  pixel_recHit.q*math.fabs(pixel_recHit.tz)*ToKe < QaveCorr:
@@ -377,7 +378,7 @@ class HistoStruct:
         c1_qclus.SetFillColor(ROOT.kWhite)
         c1_qclus.Divide(int(w),int(h))
 
-        c1_qclus_primaries_corr = ROOT.TCanvas("c1_qclus_primaries_corr","c1_qclus_primaries_corr",900,900)
+        c1_qclus_primaries_corr = ROOT.TCanvas("c1_qclus_primaries_corr","c1_qclus_all_corr",900,900)
         c1_qclus_primaries_corr.SetFillColor(ROOT.kWhite)
         c1_qclus_primaries_corr.Divide(int(w),int(h))
         
@@ -385,7 +386,7 @@ class HistoStruct:
         c1_spreadXY.SetFillColor(ROOT.kWhite)
         c1_spreadXY.Divide(int(w),int(h))
         
-        c1_primaries_spreadXY = ROOT.TCanvas("c1_primaries_spreadXY","c1_primaries_spreadXY",900,900)
+        c1_primaries_spreadXY = ROOT.TCanvas("c1_primaries_spreadXY","c1_all_spreadXY",900,900)
         c1_primaries_spreadXY.SetFillColor(ROOT.kWhite)
         c1_primaries_spreadXY.Divide(int(w),int(h))
         
@@ -932,8 +933,8 @@ class HistoStruct:
         #MakeNiceTrendPlotStyle(self.h_resRPhivsV_qall,3,the_extrema)
         #self.h_resRPhivsV_qall.Draw("CEsame")
         
-        lego.AddEntry(self.h_resRPhivsV_qlow,"primaries Q/#LTQ#GT<1") 
-        lego.AddEntry(self.h_resRPhivsV_qhigh,"primaries 1<Q/#LTQ#GT<1.5")
+        lego.AddEntry(self.h_resRPhivsV_qlow,"rechits Q/#LTQ#GT<1") 
+        lego.AddEntry(self.h_resRPhivsV_qhigh,"rechits 1<Q/#LTQ#GT<1.5")
         #lego.AddEntry(self.h_resRPhivsV_qall,"primaries Q/#LTQ#GT<1.5")
         
         lego.Draw("same")

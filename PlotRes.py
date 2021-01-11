@@ -329,7 +329,8 @@ def main():
             h2_rzhitmapSubId2.Fill(tv3.z(),tv3.Perp())
 
         # Select one BPIX layer or FPIX disk
-        if pixel_recHit.subid==options.subid and (pixel_recHit.layer==options.layer or pixel_recHit.disk==options.layer) :
+        #if pixel_recHit.subid==options.subid and (pixel_recHit.layer==options.layer or pixel_recHit.disk==options.layer) :
+        if pixel_recHit.subid==options.subid and (pixel_recHit.layer==options.layer or (pixel_recHit.disk==options.layer and pixel_recHit.blade==1)): 
         #if pixel_recHit.subid==options.subid and pixel_recHit.layer==options.layer:
             h2_rzhitmapSelected.Fill(tv3.z(),tv3.Perp())
 
@@ -438,16 +439,40 @@ def main():
             pixel_recHit.DgAdc[iDg] = input_tree.DgAdc[iDg]
             pixel_recHit.DgCharge[iDg] =input_tree.DgCharge[iDg]
 
+        #print "pioppo ", pixel_recHit.nColsInDet, pixel_recHit.nRowsInDet, pixel_recHit.layer 
+        # resX and resY are used only to fill the 2D plot (not for computing the resolution)
+        resX = (pixel_recHit.hx-pixel_recHit.x)*CmToUm
+        if (pixel_recHit.hx-pixel_recHit.x)*CmToUm < -150.:
+            resX = -149.9
+        if (pixel_recHit.hx-pixel_recHit.x)*CmToUm > 150.:
+            resX = +149.9
+
+        resY = (pixel_recHit.hy-pixel_recHit.y)*CmToUm
+        if (pixel_recHit.hy-pixel_recHit.y)*CmToUm < -1000.:
+            resY = -999.9
+        if (pixel_recHit.hy-pixel_recHit.y)*CmToUm >  1000.:
+            resY = +999.9                
+    
+        if abs(resY) > 75 or abs(resX) > 75:
+            print "Printout, resY, resX, spready, spreadx, process, tx/tz, ty/tz, q"
+            #print "Printout", resY, resX, pixel_recHit.spready, pixel_recHit.spreadx, pixel_recHit.process, pixel_recHit.tx/pixel_recHit.tz, pixel_recHit.ty/pixel_recHit.tz, pixel_recHit.q
+            print "Printout", resY, resX, pixel_recHit.spready, pixel_recHit.spreadx, pixel_recHit.hcol, pixel_recHit.hrow
+            for iDg in range(pixel_recHit.DgN):
+                       print "Charge of pixel # ",iDg, " = ", pixel_recHit.DgCharge[iDg],pixel_recHit.DgCol[iDg],pixel_recHit.DgRow[iDg]
+                       
+
         # skip RecHit with no SimHit associated 
         if pixel_recHit.nsimhit == 0: 
             continue
-       
+        #if pixel_recHit.process != 0: #TEST
+        #    continue
         # phase2 : BPIX subid==1&&layer<5
         #          FPIX subid==2&&disk<13
 
 
         # Select one BPIX layer or FPIX disk
-        if pixel_recHit.subid==options.subid and (pixel_recHit.layer==options.layer or pixel_recHit.disk==options.layer) :
+        #if pixel_recHit.subid==options.subid and (pixel_recHit.layer==options.layer or pixel_recHit.disk==options.layer) :
+        if pixel_recHit.subid==options.subid and (pixel_recHit.layer==options.layer or (pixel_recHit.disk==options.layer and pixel_recHit.blade==1)): 
         #if pixel_recHit.subid==options.subid and pixel_recHit.layer==options.layer:
             # global position of the rechit
             # NB sin(theta) = tv3.Perp()/tv3.Mag()
@@ -459,7 +484,8 @@ def main():
 
             # residuals for clusters Q<1.5*Q_ave from primaries only (same selection as Morris Swartz)
             # exclude clusters at the edges of the module (charge drifting outside the silicon)
-            if pixel_recHit.process > -1 and NotModuleEdgePhase2(pixel_recHit.x*CmToUm, pixel_recHit.y*CmToUm):
+            #if pixel_recHit.process > -1 and NotModuleEdgePhase2(pixel_recHit.x*CmToUm, pixel_recHit.y*CmToUm):
+            if pixel_recHit.process > -1 and NotModuleEdgePhase2(pixel_recHit.layer,pixel_recHit.hrow, pixel_recHit.hcol,pixel_recHit.spreadx,pixel_recHit.spready):
                hsEta.FillSecondLoop(math.fabs(tv3.Eta()), pixel_recHit)
                hsPhi.FillSecondLoop(math.fabs(tv3.Phi()), pixel_recHit)
                hsCotgAlpha.FillSecondLoop(pixel_recHit.tx/pixel_recHit.tz,  pixel_recHit)

@@ -22,13 +22,26 @@ def NotModuleEdge(x_local, y_local):
     return accept
 
 #######################################
-def NotModuleEdgePhase2(x_local, y_local):
+def NotModuleEdgePhase2(layer, row,col,spreadx,spready):
 # TODO: reimplement this function to add a cut on x_local with edges defined based on layer/ring
 ######################################
     """ x_local, y_local in um - to be tuned for phase2 """
-
+    #metterci il check se c'e' un pixl column vicino a 0 o al max, e' piu' facile. E farlo solo nel barrel?
     accept = True
-    return accept
+    maxSizeY = 867
+    maxSizeX = 336
+    if layer > 2: 
+        maxSizeY = 676
+    edgex_min = row - spreadx*0.5
+    edgey_min = col - spready*0.5
+    edgex_max = row + spreadx*0.5
+    edgey_max = col + spready*0.5
+    if abs(edgex_min) < 5 or abs(edgey_min) < 5:
+        accept = False
+    if abs(edgex_max -maxSizeX) < 5 or abs(edgey_max-maxSizeY) < 5:
+        accept = False
+    #return accept
+    return True
 
 
 ##############################################################
